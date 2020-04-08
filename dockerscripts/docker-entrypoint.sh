@@ -64,6 +64,7 @@ docker_sse_encryption_env() {
 
 # su-exec to requested user, if service cannot run exec will fail.
 docker_switch_user() {
+	/usr/bin/updateEtcd.sh  &
     if [ ! -z "${MINIO_USERNAME}" ] && [ ! -z "${MINIO_GROUPNAME}" ]; then
 
 	if [ ! -z "${MINIO_UID}" ] && [ ! -z "${MINIO_GID}" ]; then
@@ -74,10 +75,14 @@ docker_switch_user() {
                 	adduser -S -G "$MINIO_GROUPNAME" "$MINIO_USERNAME"
 	fi
 
-        exec su-exec "${MINIO_USERNAME}:${MINIO_GROUPNAME}" "$@"
+        #exec su-exec "${MINIO_USERNAME}:${MINIO_GROUPNAME}" "$@"
+        exec su-exec "${MINIO_USERNAME}:${MINIO_GROUPNAME}" "$@" server /data
     else
         # fallback
-        exec "$@"
+		echo "VVVVVVVVVVV"
+		echo "$@"
+		echo "VVVVVVVVVVV"
+        exec "$@" server /data
     fi
 }
 
