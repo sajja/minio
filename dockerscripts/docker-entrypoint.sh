@@ -79,9 +79,7 @@ docker_switch_user() {
         exec su-exec "${MINIO_USERNAME}:${MINIO_GROUPNAME}" "$@" server /data
     else
         # fallback
-		echo "VVVVVVVVVVV"
 		echo "$@"
-		echo "VVVVVVVVVVV"
         exec "$@" server /data
     fi
 }
